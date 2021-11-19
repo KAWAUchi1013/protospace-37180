@@ -9,6 +9,6 @@ class CommentsController < ApplicationController
   def message_params
     params.require(:message).permit(:content, :image).merge(user_id: current_user.id)
   end
-prams[:tweet_id])
+　　params[:tweet_id])
   end
 end
