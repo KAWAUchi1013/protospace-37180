@@ -1,7 +1,7 @@
 #prototypes_controller.rb
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only:[ :delete,:new,:edit]
-  before_action :move_to_index, except: [:index, :show]
+  before_action :move_to_index, except: [:index, :show ,:new]
   protect_from_forgery with: :null_session
   def index
     @prototypes = Prototype.includes(:user).order("created_at DESC")
@@ -46,7 +46,7 @@ class PrototypesController < ApplicationController
   end
 
   def move_to_index
-    unless current_user = @prototype.user
+    unless current_user == @prototype.user
       redirect_to action: :index
     end
   end
