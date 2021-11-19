@@ -1,7 +1,7 @@
 #prototypes_controller.rb
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only:[ :delete,:new,:edit]
-  before_action :move_to_index, except: [:index, :show ,:new]
+  before_action :move_to_index, except: [:index, :show ,:new,:create]
   protect_from_forgery with: :null_session
   def index
     @prototypes = Prototype.includes(:user).order("created_at DESC")
@@ -11,8 +11,7 @@ class PrototypesController < ApplicationController
     @prototype = Prototype.new
   end
   def create
-
-    @prototype = Prototype.new(prototype_params)
+       @prototype = Prototype.new(prototype_params)
     if @prototype.save
       redirect_to root_path
     else
