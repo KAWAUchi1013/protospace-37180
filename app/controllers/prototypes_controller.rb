@@ -2,7 +2,7 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only:[ :delete,:new,:edit]
   before_action :move_to_index, except: [:index, :show ,:new,:create]
-  protect_from_forgery with: :null_session
+  
   def index
     @prototypes = Prototype.includes(:user).order("created_at DESC")
   end
@@ -39,12 +39,13 @@ class PrototypesController < ApplicationController
   end
   def destroy
     prototype = Prototype.find(params[:id])
-    if prototype.destroy
-      redirect_to root_path
-    end    
+    prototype.destroy
+    redirect_to prototypes_path
   end
 
+
   def move_to_index
+    @prototype = Prototype.find(params[:id])
     unless current_user == @prototype.user
       redirect_to action: :index
     end
